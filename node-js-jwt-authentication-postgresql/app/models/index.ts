@@ -3,6 +3,8 @@ import { config } from "../config/db.config";
 import { Dialect, Sequelize } from "sequelize";
 import { initRole, Role } from "./role.model";
 import { initUsers, User } from "./user.model";
+import { initMessages, Message} from "./message.model";
+
 const sequelize = new Sequelize(
   config.DB,
   config.USER,
@@ -24,11 +26,14 @@ const sequelize = new Sequelize(
 export const db = {
   user: User,
   role: Role,
+  message: Message,
   sequelize,
   ROLES: ["user", "admin", "moderator"]
 };
+
 initUsers(sequelize);
 initRole(sequelize);
+initMessages(sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
