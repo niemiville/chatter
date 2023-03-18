@@ -13,8 +13,14 @@ export function messageRoutes(app: Express) {
 
   app.post(
     "/api/message",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, authJwt.verifyUser],
     controller.sendMessage
+  );
+
+  app.get(
+    "/api/message",
+    [authJwt.verifyToken, authJwt.verifyUser],
+    controller.getMessagesFromChat
   );
 
 };
