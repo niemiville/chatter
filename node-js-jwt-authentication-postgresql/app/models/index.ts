@@ -4,6 +4,8 @@ import { Dialect, Sequelize } from "sequelize";
 import { initRole, Role } from "./role.model";
 import { initUsers, User } from "./user.model";
 import { initMessages, Message} from "./message.model";
+import { initContactStatus, ContactStatus } from "./contact-status.model"
+import { initContacts, Contact } from "./contact.model"
 
 const sequelize = new Sequelize(
   config.DB,
@@ -27,13 +29,18 @@ export const db = {
   user: User,
   role: Role,
   message: Message,
+  contactStatus: ContactStatus,
+  contact: Contact,
   sequelize,
-  ROLES: ["user", "admin", "moderator"]
+  ROLES: ["user", "admin", "moderator"],
+  STATUS: ["open", "accepted", "rejected", "blocked"]
 };
 
 initUsers(sequelize);
 initRole(sequelize);
 initMessages(sequelize);
+initContactStatus(sequelize);
+initContacts(sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",

@@ -22,6 +22,7 @@ import { authRoutes } from "./app/routes/auth.routes";
 import { userRoutes } from "./app/routes/user.routes";
 import { messageRoutes } from "./app/routes/message.routes";
 const Role = db.role;
+const ContactStatus = db.contactStatus;
 
 // db.sequelize.sync();
 // force: true will drop the table if it already exists
@@ -61,4 +62,25 @@ function initial() {
     id: 3,
     name: "admin"
   });
+
+  ContactStatus.create({
+    id: 1,
+    name: "open"
+  });
+  
+  ContactStatus.create({
+    id: 2,
+    name: "accepted"
+  });
+  
+  ContactStatus.create({
+    id: 3,
+    name: "rejected"
+  });
+
+  ContactStatus.create({
+    id: 4,
+    name: "blocked"
+  });
+
 }
