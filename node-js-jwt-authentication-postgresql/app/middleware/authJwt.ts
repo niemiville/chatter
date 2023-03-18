@@ -1,12 +1,7 @@
 import { RequestHandler } from 'express';
 import jwt from "jsonwebtoken";
 import { config } from "../config/auth.config";
-import { db } from "../models";
 import { User } from '../models/user.model';
-
-
-
-
 
 const verifyToken: RequestHandler = (req, res, next) => {
   let token = req.headers["x-access-token"] as string;
@@ -85,10 +80,20 @@ const isModeratorOrAdmin: RequestHandler = (req, res, next) => {
   });
 };
 
+const verifyUser: RequestHandler = (req, res, next) => {
+  if((req as any).userId === req.body.senderId){
+    next();
+    return;
+  }
+  res.status(401).send({
+    message: "Wrong sender id!"
+  });
+};
+
 export const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
   isModerator: isModerator,
-  isModeratorOrAdmin: isModeratorOrAdmin
+  isModeratorOrAdmin: isModeratorOrAdmin,
+  verifyUser: verifyUser
 };
-
