@@ -59,3 +59,5 @@ Then, edit `app/config/db.config.js` with correct DB credentials.
 ```
 node server.js
 ```
+
+Backend template forked [here](https://github.com/noam-honig/node-js-jwt-authentication-postgresql/commit/2f95836327eba761cb9c3182552040a1684a3558).
