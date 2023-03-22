@@ -4,8 +4,7 @@ import { ContactStatus } from "./contact-status.model";
 export class Contact extends Model {
   senderId!: number;
   receiverId!: string;
-  setStatus!: (status: (ContactStatus | number)[]) => Promise<void>;
-  getStatus!: () => Promise<ContactStatus[]>
+  status!: number;
 }
 
 export function initContacts(sequelize: Sequelize) {
@@ -19,6 +18,14 @@ export function initContacts(sequelize: Sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
+    },
+    status: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: ContactStatus,
+        key: 'id'
+      }
     }
   }, {
     sequelize,

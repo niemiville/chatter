@@ -12,7 +12,8 @@ export function initContactStatus(sequelize: Sequelize) {
       primaryKey: true
     },
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      unique: true
     }
   },
     {

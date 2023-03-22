@@ -86,7 +86,7 @@ const verifyUser: RequestHandler = (req, res, next) => {
     return;
   }
   res.status(401).send({
-    message: "Wrong sender id!"
+    message: "Unauthorized! Incorrect user ID."
   });
 };
 

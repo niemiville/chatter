@@ -21,6 +21,7 @@ import { db } from "./app/models";
 import { authRoutes } from "./app/routes/auth.routes";
 import { userRoutes } from "./app/routes/user.routes";
 import { messageRoutes } from "./app/routes/message.routes";
+import { contactRoutes } from "./app/routes/contact.routes";
 const Role = db.role;
 const ContactStatus = db.contactStatus;
 
@@ -40,6 +41,7 @@ app.get("/", (req, res) => {
 authRoutes(app);
 userRoutes(app);
 messageRoutes(app);
+contactRoutes(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
