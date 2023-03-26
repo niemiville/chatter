@@ -6,8 +6,8 @@ const Message = db.message;
 
 export const sendMessage: RequestHandler = (req, res) => {
     Message.create({
-        senderId: req.body.senderId,
-        receiverId: req.body.receiverId,
+        senderId: req.query.senderId,
+        receiverId: req.query.receiverId,
         body: req.body.body
     })
     .then(() => res.status(200).send({ message: "Message sent successfully!"}))
@@ -20,10 +20,10 @@ export const getMessagesFromChat: RequestHandler = (req, res) => {
     Message.findAll({
         where: {       
             senderId: {
-                [Op.or]: [req.body.senderId, req.body.receiverId]
+                [Op.or]: [req.query.senderId, req.query.receiverId]
             },
             receiverId: {
-                [Op.or]: [req.body.receiverId, req.body.senderId]
+                [Op.or]: [req.query.receiverId, req.query.senderId]
             }
         }
     })

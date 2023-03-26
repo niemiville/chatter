@@ -81,7 +81,7 @@ const isModeratorOrAdmin: RequestHandler = (req, res, next) => {
 };
 
 const verifyUser: RequestHandler = (req, res, next) => {
-  if((req as any).userId === req.body.senderId){
+  if((req as any).userId == req.query.senderId){
     next();
     return;
   }
