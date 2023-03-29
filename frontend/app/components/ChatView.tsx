@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
 import { getMessages } from '../services/requests';
 
 interface Message{
@@ -14,12 +15,8 @@ export const ChatView = () => {
     const [messages, setMessages] = useState<[Message] | null>(null);
     const senderId = 1;
     const receiverId = 2;
-    var msg = "Not ready";
-    if(messages != null) {
-        msg = messages[0].body
-    }
+
     useEffect(() => {
-        console.log("useeffect chatview")
         getMessages(senderId, receiverId).then(messages =>
         setMessages(messages)
         )
@@ -33,7 +30,21 @@ export const ChatView = () => {
 
     return (
         <>
-            {msg}
+            {messages != null && 
+                <View
+                style={{
+                  flexDirection: 'column',
+                  height: 100,
+                  padding: 0,
+                }}>
+                    {messages.map(m =>
+                        <Text key={m.id}>
+                            {m.body}
+                        </Text>
+                          
+                    )}
+                </View>
+            }
         </>
     )
 
