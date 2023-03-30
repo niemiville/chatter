@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
-import { getMessages } from '../services/requests';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { getMessages, sendMessage } from '../services/requests';
 
 interface Message{
     id: number;
@@ -9,10 +9,11 @@ interface Message{
     body: string;
     createdAt: string;
     updatedAt: string;
- }
+}
 
 export const ChatView = () => {
     const [messages, setMessages] = useState<[Message] | null>(null);
+    const [text, onChangeText] = useState("");
     const senderId = 1;
     const receiverId = 2;
 
@@ -28,24 +29,55 @@ export const ChatView = () => {
         return () => clearInterval(interval);
     }, []);
 
+    const sendUserMessage = async (text: string) => {
+        console.log(await sendMessage(1, 2, text)); 
+        onChangeText("")
+    }
     return (
-        <>
-            {messages != null && 
-                <View
-                style={{
-                  flexDirection: 'column',
-                  height: 100,
-                  padding: 0,
-                }}>
-                    {messages.map(m =>
-                        <Text key={m.id}>
-                            {m.body}
-                        </Text>
-                          
-                    )}
+        <SafeAreaView style={{flexDirection: "column"}}>
+            <ScrollView>
+                {messages != null && 
+                    <View style={{padding: 15}}>
+                        {messages.map(m =>
+                            <Text key={m.id} style={m.senderId == senderId ? styles.senderTextField : styles.receiverTextField}>{m.body}</Text>         
+                        )}
+                    </View>
+                }
+                <View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Write a message"
+                        onChangeText={onChangeText}
+                        value={text}
+                        onSubmitEditing={ () => sendUserMessage(text) }
+                    />
                 </View>
-            }
-        </>
+            </ScrollView>
+        </SafeAreaView>
     )
 
 }
+
+const styles = StyleSheet.create({
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      justifyContent: "center"
+    },
+    senderTextField: { 
+        padding: 5, 
+        marginBottom: 5, 
+        marginLeft: 50,
+        borderRadius: 5,
+        backgroundColor: "lightgreen",
+        textAlign: "right"},
+    receiverTextField: { 
+        padding: 5, 
+        marginBottom: 5, 
+        marginRight: 50,
+        borderRadius: 5,
+        backgroundColor: "lightgrey",
+        textAlign: "left"},
+});
