@@ -27,6 +27,8 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { ChatView } from './app/components/ChatView';
+import SignInForm from './app/components/SignInForm';
+import HomeScreen from './app/components/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +37,9 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Sign In" component={SignInForm} />
         <Stack.Screen name="Chat" component={ChatView} />
       </Stack.Navigator>            
     </NavigationContainer>
