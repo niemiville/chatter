@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { retrieveData } from '../storage/async-storage';
+import { Contact } from '../types/types';
 
 const getMessages = async (senderId: number, receiverId: number):Promise<any> => {
     const config = {
@@ -40,5 +41,47 @@ const signIn = (credentials: {username: string, password: string}):Promise<any> 
     .catch(err => console.log(err.response.data));
 };
 
+const getContacts = async (senderId: number, receiverId: number):Promise<any> => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+            "x-access-token": (await retrieveData('user')).accessToken
+        },
+        params: {
+            "senderId": 1, 
+            "receiverId": 2
+        }
+    };
+    return axios.get("http:/10.0.2.2:8080/api/contacts", config)
+    .then(res => getContactNames(getUniqueIds(res.data.contacts)))
+    .catch(err => console.log(err.response.data));
+};
 
-export { getMessages, sendMessage, signIn };
+const getUniqueIds = (contacts: Array<Contact>) => {
+    let ids:number[] = [];
+    for(let c of contacts){
+        if(!ids.includes(c.senderId)) ids.push(c.senderId);
+        if(!ids.includes(c.receiverId)) ids.push(c.receiverId);
+    }
+    console.log("Contact ids: ", ids);
+    return ids;
+}
+
+const getContactNames = async (idList: Array<number>):Promise<any> => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+            "x-access-token": (await retrieveData('user')).accessToken
+        },
+        params: {
+            "senderId": 1, 
+            "receiverId": 2
+        }
+    };
+    return axios.post("http:/10.0.2.2:8080/api/get-usernames", {"idList": idList}, config)
+    .then(res => res.data.usernames)
+    .catch(err => console.log(err.response.data));
+};
+
+
+export { getMessages, sendMessage, signIn, getContacts };

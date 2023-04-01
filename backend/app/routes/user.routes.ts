@@ -30,4 +30,10 @@ export function userRoutes(app: Express) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );
+
+  app.post(
+    "/api/get-usernames",
+    [authJwt.verifyToken, authJwt.verifyUser],
+    controller.getContactNames
+  );
 };

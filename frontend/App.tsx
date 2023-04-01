@@ -29,6 +29,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { ChatView } from './app/components/ChatView';
 import SignInForm from './app/components/SignInForm';
 import HomeScreen from './app/components/HomeScreen';
+import { Contacts } from './app/components/Contacts';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ function App(): JSX.Element {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Sign In" component={SignInForm} />
         <Stack.Screen name="Chat" component={ChatView} />
+        <Stack.Screen name="Contacts" component={Contacts} />
       </Stack.Navigator>            
     </NavigationContainer>
   );

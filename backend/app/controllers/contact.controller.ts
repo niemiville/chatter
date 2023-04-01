@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { db } from "../models";
-//import { Op } from "sequelize";
+import { Op } from "sequelize";
 
 const Contact = db.contact;
 const ContactStatus = db.STATUS;
@@ -40,6 +40,22 @@ export const updateContactRequest: RequestHandler = (req, res) => {
     .then(contact => contact?.update({ status: ContactStatus.indexOf(req.body.status) + 1 }))
     .then(contact => contact?.save())
     .then(() => res.status(200).send({ message: "Contact request updated successfully!"}))
+    .catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+};
+
+export const getContacts: RequestHandler = (req, res) => {
+    Contact.findAll({
+        where: {       
+            [Op.or]: [
+                {senderId: (req as any).userId},
+                {receiverId: (req as any).userId}
+            ],
+            status: ContactStatus.indexOf("accepted") + 1
+        }
+    })
+    .then((contacts) => res.status(200).send({ contacts }))
     .catch(err => {
         res.status(500).send({ message: err.message });
     });

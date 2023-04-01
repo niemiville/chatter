@@ -29,4 +29,10 @@ export function contactRoutes(app: Express) {
     controller.updateContactRequest
   );
 
+  app.get(
+    "/api/contacts",
+    [authJwt.verifyToken, authJwt.verifyUser],
+    controller.getContacts
+  );
+
 };
