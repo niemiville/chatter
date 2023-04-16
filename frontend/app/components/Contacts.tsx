@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { getContacts } from '../services/requests';
 
 interface ContactNames {
@@ -7,7 +7,7 @@ interface ContactNames {
     username: string;
 }
 
-export const Contacts = () => {
+export const Contacts = ({navigation}: {navigation: any}) => {
     const [contacts, setContacts] = useState<[ContactNames] | null>(null);
     const senderId = 1;
     const receiverId = 2;
@@ -22,10 +22,13 @@ export const Contacts = () => {
                 {contacts != null && 
                     <View style={{padding: 15}}>
                         {contacts.map(c =>
-                            <Text key={c.id}>{c.username}</Text>         
+                            <Text key={c.id} onPress={() => navigation.navigate('Chat', { id: c.id, username: c.username })}>{c.username}</Text>         
                         )}
                     </View>
                 }
+                <View>
+                    <Button title="Add contact" onPress={() => navigation.navigate('Add Contact')} />
+                </View>
             </ScrollView>
         </SafeAreaView>
     )
