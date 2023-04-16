@@ -8,7 +8,7 @@ interface SignInFormValues {
   password: string;
 }
 
-const SignInForm = () => {
+const SignInForm = ({navigation}: {navigation: any}) => {
   const [formValues, setFormValues] = useState<SignInFormValues>({ username: '', password: '' });
 
   const handleInputChange = (name: keyof SignInFormValues, value: string) => {
@@ -20,6 +20,7 @@ const SignInForm = () => {
     const user = await signIn(formValues);
     console.log(user);
     storeData("user", user);
+    navigation.navigate('Contacts');
   };
 
   return (

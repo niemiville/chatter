@@ -30,6 +30,7 @@ import { ChatView } from './app/components/ChatView';
 import SignInForm from './app/components/SignInForm';
 import HomeScreen from './app/components/HomeScreen';
 import { Contacts } from './app/components/Contacts';
+import { AddContact } from './app/components/AddContact';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,7 @@ function App(): JSX.Element {
         <Stack.Screen name="Sign In" component={SignInForm} />
         <Stack.Screen name="Chat" component={ChatView} />
         <Stack.Screen name="Contacts" component={Contacts} />
+        <Stack.Screen name="Add Contact" component={AddContact} />
       </Stack.Navigator>            
     </NavigationContainer>
   );

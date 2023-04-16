@@ -11,11 +11,11 @@ interface Message{
     updatedAt: string;
 }
 
-export const ChatView = () => {
+export const ChatView = ({route}: {route: any}) => {
     const [messages, setMessages] = useState<[Message] | null>(null);
     const [text, onChangeText] = useState("");
     const senderId = 1;
-    const receiverId = 2;
+    const receiverId = route.params.id;
 
     useEffect(() => {
         getMessages(senderId, receiverId).then(messages =>
@@ -30,9 +30,10 @@ export const ChatView = () => {
     }, []);
 
     const sendUserMessage = async (text: string) => {
-        console.log(await sendMessage(1, 2, text)); 
+        console.log(await sendMessage(1, receiverId, text)); 
         onChangeText("")
     }
+    
     return (
         <SafeAreaView style={{flexDirection: "column"}}>
             <ScrollView>
