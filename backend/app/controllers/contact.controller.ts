@@ -20,7 +20,7 @@ export const sendContactRequest: RequestHandler = (req, res) => {
 export const getOpenContactRequests: RequestHandler = (req, res) => {
     Contact.findAll({
         where: {       
-            receiverId: req.body.senderId, //contact requests received by the sender (requester) user
+            receiverId: req.query.senderId, //contact requests received by the sender (requester) user
             status: ContactStatus.indexOf("open") + 1
         }
     })

@@ -57,6 +57,21 @@ const getContacts = async (senderId: number, receiverId: number):Promise<any> =>
     .catch(err => console.log(err.response.data));
 };
 
+const getOpenContactRequests = async (senderId: number):Promise<any> => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+            "x-access-token": (await retrieveData('user')).accessToken
+        },
+        params: {
+            "senderId": senderId
+        }
+    };
+    return axios.get("http:/10.0.2.2:8080/api/contact-request", config)
+    .then(res => getContactNames(getUniqueIds(res.data.contactRequests)))
+    .catch(err => console.log(err.response.data));
+};
+
 const getUniqueIds = (contacts: Array<Contact>) => {
     let ids:number[] = [];
     for(let c of contacts){
@@ -98,4 +113,49 @@ const sendContactRequest = async (senderId: number, receiverId: number):Promise<
     .catch(err => console.log(err.response.data));
 };
 
-export { getMessages, sendMessage, signIn, getContacts, sendContactRequest };
+const acceptContactRequest = async (senderId: number, receiverId: number):Promise<any> => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+            "x-access-token": (await retrieveData('user')).accessToken
+        },
+        params: {
+            "senderId": senderId
+        }
+    };
+    return axios.put("http:/10.0.2.2:8080/api/contact-request", {"senderId": senderId, "receiverId": receiverId, "status": "accepted"}, config)
+    .then(res => res.data.message)
+    .catch(err => console.log(err.response.data));
+};
+
+const rejectContactRequest = async (senderId: number, receiverId: number):Promise<any> => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+            "x-access-token": (await retrieveData('user')).accessToken
+        },
+        params: {
+            "senderId": senderId
+        }
+    };
+    return axios.put("http:/10.0.2.2:8080/api/contact-request", {"senderId": senderId, "receiverId": receiverId, "status": "rejected"}, config)
+    .then(res => res.data.message)
+    .catch(err => console.log(err.response.data));
+};
+
+const blockContactRequest = async (senderId: number, receiverId: number):Promise<any> => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+            "x-access-token": (await retrieveData('user')).accessToken
+        },
+        params: {
+            "senderId": senderId
+        }
+    };
+    return axios.put("http:/10.0.2.2:8080/api/contact-request", {"senderId": senderId, "receiverId": receiverId, "status": "blocked"}, config)
+    .then(res => res.data.message)
+    .catch(err => console.log(err.response.data));
+};
+
+export { getMessages, sendMessage, signIn, getContacts, sendContactRequest, getOpenContactRequests, acceptContactRequest, rejectContactRequest, blockContactRequest };
