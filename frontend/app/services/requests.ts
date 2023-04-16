@@ -9,8 +9,8 @@ const getMessages = async (senderId: number, receiverId: number):Promise<any> =>
             "x-access-token": (await retrieveData('user')).accessToken
         },
         params: {
-            "senderId": 1, 
-            "receiverId": 2
+            "senderId": senderId, 
+            "receiverId": receiverId
         }
     };
     return axios.get("http:/10.0.2.2:8080/api/message", config)
@@ -25,8 +25,8 @@ const sendMessage = async (senderId: number, receiverId: number, data: string):P
             "x-access-token": (await retrieveData('user')).accessToken
         },
         params: {
-            "senderId": 1, 
-            "receiverId": 2
+            "senderId": senderId, 
+            "receiverId": receiverId
         }
     };
     return axios.post("http:/10.0.2.2:8080/api/message", {"body": data}, config)
@@ -83,5 +83,19 @@ const getContactNames = async (idList: Array<number>):Promise<any> => {
     .catch(err => console.log(err.response.data));
 };
 
+const sendContactRequest = async (senderId: number, receiverId: number):Promise<any> => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+            "x-access-token": (await retrieveData('user')).accessToken
+        },
+        params: {
+            "senderId": senderId
+        }
+    };
+    return axios.post("http:/10.0.2.2:8080/api/contact-request", {"senderId": senderId, "receiverId": receiverId}, config)
+    .then(res => res.data.message)
+    .catch(err => console.log(err.response.data));
+};
 
-export { getMessages, sendMessage, signIn, getContacts };
+export { getMessages, sendMessage, signIn, getContacts, sendContactRequest };
