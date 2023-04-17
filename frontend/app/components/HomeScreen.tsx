@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const HomeScreen = ({navigation}: {navigation: any}) => {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
+        <Button title="Sign Up" onPress={() => navigation.navigate('Sign Up')} />
         <Button title="Sign In" onPress={() => navigation.navigate('Sign In')} />
         <Button title="Chat" onPress={() => navigation.navigate('Chat')} />
         <Button title="Contacts" onPress={() => navigation.navigate('Contacts')} />

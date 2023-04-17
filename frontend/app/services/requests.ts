@@ -41,6 +41,13 @@ const signIn = (credentials: {username: string, password: string}):Promise<any> 
     .catch(err => console.log(err.response.data));
 };
 
+const signUp = (credentials: {username: string, email: string, password: string, roles: [string]}):Promise<any> => {
+    console.log(credentials)
+    return axios.post("http:/10.0.2.2:8080/api/auth/signup", credentials, {"headers": {"Content-Type": "application/json"}})
+    .then(res => res.data)
+    .catch(err => console.log(err.response.data));
+};
+
 const getContacts = async (senderId: number, receiverId: number):Promise<any> => {
     const config = {
         headers:{
@@ -98,17 +105,18 @@ const getContactNames = async (idList: Array<number>):Promise<any> => {
     .catch(err => console.log(err.response.data));
 };
 
-const sendContactRequest = async (senderId: number, receiverId: number):Promise<any> => {
+const sendContactRequest = async (receiverId: number):Promise<any> => {
+    const user = (await retrieveData('user'));
     const config = {
         headers:{
             "Content-Type": "application/json",
-            "x-access-token": (await retrieveData('user')).accessToken
+            "x-access-token": user.accessToken
         },
         params: {
-            "senderId": senderId
+            "senderId": user.id
         }
     };
-    return axios.post("http:/10.0.2.2:8080/api/contact-request", {"senderId": senderId, "receiverId": receiverId}, config)
+    return axios.post("http:/10.0.2.2:8080/api/contact-request", {"senderId": user.id, "receiverId": receiverId}, config)
     .then(res => res.data.message)
     .catch(err => console.log(err.response.data));
 };
@@ -158,4 +166,4 @@ const blockContactRequest = async (senderId: number, receiverId: number):Promise
     .catch(err => console.log(err.response.data));
 };
 
-export { getMessages, sendMessage, signIn, getContacts, sendContactRequest, getOpenContactRequests, acceptContactRequest, rejectContactRequest, blockContactRequest };
+export { getMessages, sendMessage, signIn, signUp, getContacts, sendContactRequest, getOpenContactRequests, acceptContactRequest, rejectContactRequest, blockContactRequest };

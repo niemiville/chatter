@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { signIn } from '../services/requests';
+import { signUp } from '../services/requests';
 import { storeData } from '../storage/async-storage';
 
-interface SignInFormValues {
+interface SignUpFormValues {
   username: string;
   password: string;
+  email: string;
+  roles: [string];
 }
 
-const SignInForm = ({navigation}: {navigation: any}) => {
-  const [formValues, setFormValues] = useState<SignInFormValues>({ username: '', password: '' });
+const SignUpForm = ({navigation}: {navigation: any}) => {
+  const [formValues, setFormValues] = useState<SignUpFormValues>({ username: '', password: '', email: '', roles: ['user'] });
 
-  const handleInputChange = (name: keyof SignInFormValues, value: string) => {
+  const handleInputChange = (name: keyof SignUpFormValues, value: string) => {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSignIn = async () => {
+  const handleSignUp = async () => {
     console.log('Submitting form', formValues);
-    const user = await signIn(formValues);
+    const user = await signUp(formValues);
     console.log(user);
-    storeData("user", user);
-    navigation.navigate('Home');
+    navigation.navigate('Sign In');
   };
 
   return (
@@ -38,7 +39,13 @@ const SignInForm = ({navigation}: {navigation: any}) => {
         onChangeText={(value) => handleInputChange('password', value)}
         secureTextEntry={true}
       />
-      <Button title="Sign In" onPress={handleSignIn} />
+      <Text style={styles.label}>Email:</Text>
+      <TextInput
+        style={styles.input}
+        value={formValues.email}
+        onChangeText={(value) => handleInputChange('email', value)}
+      />
+      <Button title="Sign Up" onPress={handleSignUp} />
     </View>
   );
 };
@@ -66,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInForm;
+export default SignUpForm;
