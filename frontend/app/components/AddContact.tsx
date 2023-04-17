@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { sendContactRequest } from '../services/requests';
 
+
 export const AddContact = ({navigation}: {navigation: any}) => {
     const [receiverId, onChangeReceiverId] = useState('');
-    const senderId = 1;
 
     const addContact = async (receiverId: string) => {
-        console.log(await sendContactRequest(senderId, Number(receiverId))); 
+        console.log(await sendContactRequest(Number(receiverId))); 
         onChangeReceiverId('');
         navigation.navigate('Contacts');
     }
