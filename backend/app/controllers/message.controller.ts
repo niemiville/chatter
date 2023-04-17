@@ -18,13 +18,8 @@ export const sendMessage: RequestHandler = (req, res) => {
 
 export const getMessagesFromChat: RequestHandler = (req, res) => {
     Message.findAll({
-        where: {       
-            senderId: {
-                [Op.or]: [req.query.senderId, req.query.receiverId]
-            },
-            receiverId: {
-                [Op.or]: [req.query.receiverId, req.query.senderId]
-            }
+        where: {
+            [Op.or]: [{senderId: req.query.senderId, receiverId: req.query.receiverId}, {senderId: req.query.receiverId, receiverId: req.query.senderId}]
         }
     })
     .then((messages) => res.status(200).send({ messages }))
