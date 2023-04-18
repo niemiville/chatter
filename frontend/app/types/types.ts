@@ -5,3 +5,11 @@ export interface Contact {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface User {
+    id: number;
+    username: string;
+    email: string;
+    roles: [string];
+    accessToken: string;
+}

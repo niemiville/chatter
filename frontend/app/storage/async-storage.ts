@@ -19,7 +19,11 @@ const retrieveData = async (key: string) => {
     }
 };
 
-export { storeData, retrieveData };
+const clearAsyncStorage = async () => {
+  await AsyncStorage.clear();
+}
+
+export { storeData, retrieveData, clearAsyncStorage };
 
 /** 
  * Usage example

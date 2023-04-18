@@ -3,13 +3,14 @@ import { retrieveData } from '../storage/async-storage';
 import { Contact } from '../types/types';
 
 const getMessages = async (senderId: number, receiverId: number):Promise<any> => {
+    const user = (await retrieveData('user'));
     const config = {
         headers:{
             "Content-Type": "application/json",
             "x-access-token": (await retrieveData('user')).accessToken
         },
         params: {
-            "senderId": senderId, 
+            "senderId": user.id, 
             "receiverId": receiverId
         }
     };
@@ -19,13 +20,14 @@ const getMessages = async (senderId: number, receiverId: number):Promise<any> =>
 };
 
 const sendMessage = async (senderId: number, receiverId: number, data: string):Promise<any> => {
+    const user = (await retrieveData('user'));
     const config = {
         headers:{
             "Content-Type": "application/json",
-            "x-access-token": (await retrieveData('user')).accessToken
+            "x-access-token": user.accessToken
         },
         params: {
-            "senderId": senderId, 
+            "senderId": user.id, 
             "receiverId": receiverId
         }
     };
@@ -49,14 +51,14 @@ const signUp = (credentials: {username: string, email: string, password: string,
 };
 
 const getContacts = async (senderId: number, receiverId: number):Promise<any> => {
+    const user = (await retrieveData('user'));
     const config = {
         headers:{
             "Content-Type": "application/json",
-            "x-access-token": (await retrieveData('user')).accessToken
+            "x-access-token": user.accessToken
         },
         params: {
-            "senderId": 1, 
-            "receiverId": 2
+            "senderId": user.id
         }
     };
     return axios.get("http:/10.0.2.2:8080/api/contacts", config)
@@ -65,13 +67,14 @@ const getContacts = async (senderId: number, receiverId: number):Promise<any> =>
 };
 
 const getOpenContactRequests = async (senderId: number):Promise<any> => {
+    const user = (await retrieveData('user'));
     const config = {
         headers:{
             "Content-Type": "application/json",
             "x-access-token": (await retrieveData('user')).accessToken
         },
         params: {
-            "senderId": senderId
+            "senderId": user.id
         }
     };
     return axios.get("http:/10.0.2.2:8080/api/contact-request", config)
@@ -90,14 +93,14 @@ const getUniqueIds = (contacts: Array<Contact>) => {
 }
 
 const getContactNames = async (idList: Array<number>):Promise<any> => {
+    const user = (await retrieveData('user'));
     const config = {
         headers:{
             "Content-Type": "application/json",
             "x-access-token": (await retrieveData('user')).accessToken
         },
         params: {
-            "senderId": 1, 
-            "receiverId": 2
+            "senderId": user.id 
         }
     };
     return axios.post("http:/10.0.2.2:8080/api/get-usernames", {"idList": idList}, config)

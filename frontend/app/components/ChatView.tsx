@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { getMessages, sendMessage } from '../services/requests';
+import { retrieveData } from '../storage/async-storage';
+import { User } from '../types/types';
 
 interface Message{
     id: number;
@@ -16,6 +18,11 @@ export const ChatView = ({route}: {route: any}) => {
     const [text, onChangeText] = useState("");
     const senderId = 1;
     const receiverId = route.params.id;
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+      retrieveData('user').then(u => setUser(u.id));
+    }, [])
 
     useEffect(() => {
         getMessages(senderId, receiverId).then(messages =>
@@ -37,10 +44,10 @@ export const ChatView = ({route}: {route: any}) => {
     return (
         <SafeAreaView style={{flexDirection: "column"}}>
             <ScrollView>
-                {messages != null && 
+                {(messages != null && user != null) && 
                     <View style={{padding: 15}}>
                         {messages.map(m =>
-                            <Text key={m.id} style={m.senderId == senderId ? styles.senderTextField : styles.receiverTextField}>{m.body}</Text>         
+                            <Text key={m.id} style={m.senderId == user.id ? styles.senderTextField : styles.receiverTextField}>{m.body}</Text>         
                         )}
                     </View>
                 }
