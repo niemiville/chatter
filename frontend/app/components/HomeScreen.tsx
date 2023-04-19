@@ -21,7 +21,6 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       <Button title="Sign Up" onPress={() => navigation.navigate('Sign Up')} />
       <Button title="Sign In" onPress={() => navigation.navigate('Sign In')} />
       <Button title="Sign Off" onPress={() => clearAsyncStorage().then(() => retrieveData('user').then(u => setUser(u)))} />
-      <Button title="Chat" onPress={() => navigation.navigate('Chat')} />
       <Button title="Contacts" onPress={() => navigation.navigate('Contacts')} />
       <Button title="Add Contact" onPress={() => navigation.navigate('Add Contact')} />
     </View>
