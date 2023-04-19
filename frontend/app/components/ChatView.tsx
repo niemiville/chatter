@@ -21,8 +21,8 @@ export const ChatView = ({route}: {route: any}) => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-      retrieveData('user').then(u => setUser(u.id));
-    }, [])
+        retrieveData('user').then(u => setUser(u));
+    }, []);
 
     useEffect(() => {
         getMessages(senderId, receiverId).then(messages =>
@@ -47,7 +47,7 @@ export const ChatView = ({route}: {route: any}) => {
                 {(messages != null && user != null) && 
                     <View style={{padding: 15}}>
                         {messages.map(m =>
-                            <Text key={m.id} style={m.senderId == user.id ? styles.senderTextField : styles.receiverTextField}>{m.body}</Text>         
+                            <Text key={m.id} style={Number(m.senderId) == Number(user.id) ? styles.senderTextField : styles.receiverTextField}>{m.body}</Text>  
                         )}
                     </View>
                 }
