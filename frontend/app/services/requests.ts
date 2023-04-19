@@ -62,7 +62,7 @@ const getContacts = async (senderId: number, receiverId: number):Promise<any> =>
         }
     };
     return axios.get("http:/10.0.2.2:8080/api/contacts", config)
-    .then(res => getContactNames(getUniqueIds(res.data.contacts)))
+    .then(res => getContactNames(getUniqueIds(res.data.contacts, user.id)))
     .catch(err => console.log(err.response.data));
 };
 
@@ -78,19 +78,20 @@ const getOpenContactRequests = async (senderId: number):Promise<any> => {
         }
     };
     return axios.get("http:/10.0.2.2:8080/api/contact-request", config)
-    .then(res => getContactNames(getUniqueIds(res.data.contactRequests)))
+    .then(res => getContactNames(getUniqueIds(res.data.contactRequests, user.id)))
     .catch(err => console.log(err.response.data));
 };
 
-const getUniqueIds = (contacts: Array<Contact>) => {
+
+const getUniqueIds = (contacts: Array<Contact>, selfId: number) => {
     let ids:number[] = [];
     for(let c of contacts){
         if(!ids.includes(c.senderId)) ids.push(c.senderId);
         if(!ids.includes(c.receiverId)) ids.push(c.receiverId);
     }
-    console.log("Contact ids: ", ids);
+    ids = ids.filter(i => i != selfId); //Removes the user itself (no self messaging allowed)
     return ids;
-}
+};
 
 const getContactNames = async (idList: Array<number>):Promise<any> => {
     const user = (await retrieveData('user'));
