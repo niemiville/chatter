@@ -11,7 +11,6 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
   useFocusEffect(
     useCallback(() => {
       retrieveData('user').then(u => setUser(u));
-      console.log("asd")
     }, [navigation])
   );
 

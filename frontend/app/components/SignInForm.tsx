@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { signIn } from '../services/requests';
+import { signIn } from '../services/auth';
 import { storeData } from '../storage/async-storage';
-
-interface SignInFormValues {
-  username: string;
-  password: string;
-}
+import { SignInFormValues } from '../types/types';
 
 const SignInForm = ({navigation}: {navigation: any}) => {
   const [formValues, setFormValues] = useState<SignInFormValues>({ username: '', password: '' });
@@ -16,9 +12,7 @@ const SignInForm = ({navigation}: {navigation: any}) => {
   };
 
   const handleSignIn = async () => {
-    console.log('Submitting form', formValues);
     const user = await signIn(formValues);
-    console.log(user);
     storeData("user", user);
     navigation.navigate('Home');
   };

@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
-import { getContacts, getOpenContactRequests, acceptContactRequest, rejectContactRequest, blockContactRequest } from '../services/requests';
-
-interface ContactNames {
-    id: number;
-    username: string;
-}
+import { getContacts, getOpenContactRequests, acceptContactRequest, rejectContactRequest, blockContactRequest } from '../services/contact';
+import { ContactNames } from '../types/types';
 
 export const Contacts = ({navigation}: {navigation: any}) => {
     const [contacts, setContacts] = useState<[ContactNames] | null>(null);
     const [contactRequests, setContactRequests] = useState<[ContactNames] | null>(null);
-    const senderId = 1;
-    const receiverId = 2;
 
     useEffect(() => {
-        getContacts(senderId, receiverId).then(contacts => setContacts(contacts));
-        getOpenContactRequests(senderId).then(requests => setContactRequests(requests));
+        getContacts().then(contacts => setContacts(contacts));
+        getOpenContactRequests().then(requests => setContactRequests(requests));
     }, []);
 
     return (
@@ -32,11 +26,11 @@ export const Contacts = ({navigation}: {navigation: any}) => {
                 {contactRequests != null && 
                     <View style={{padding: 15}}>
                         {contactRequests.map(c =>
-                            <View style={{flexDirection: "row"}}>
-                                <Text key={c.id}>{c.username}</Text> 
-                                <Text onPress={() => acceptContactRequest(senderId, c.id)}> Accept </Text>
-                                <Text onPress={() => rejectContactRequest(senderId, c.id)}> Reject </Text>
-                                <Text onPress={() => blockContactRequest(senderId, c.id)}> Block </Text>
+                            <View key={c.id} style={{flexDirection: "row"}}>
+                                <Text key={c.id + "name"}>{c.username}</Text> 
+                                <Text onPress={() => acceptContactRequest(c.id)}> Accept </Text>
+                                <Text onPress={() => rejectContactRequest(c.id)}> Reject </Text>
+                                <Text onPress={() => blockContactRequest(c.id)}> Block </Text>
                             </View>  
                         )}
                     </View>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, TextInput, View } from 'react-native';
-import { sendContactRequest } from '../services/requests';
+import { sendContactRequest } from '../services/contact';
 
 
 export const AddContact = ({navigation}: {navigation: any}) => {

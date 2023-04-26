@@ -1,35 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { getMessages, sendMessage } from '../services/requests';
+import { getMessages, sendMessage } from '../services/message';
 import { retrieveData } from '../storage/async-storage';
-import { User } from '../types/types';
-
-interface Message{
-    id: number;
-    senderId: number;
-    receiverId: number;
-    body: string;
-    createdAt: string;
-    updatedAt: string;
-}
+import { Message, User } from '../types/types';
 
 export const ChatView = ({route}: {route: any}) => {
     const [messages, setMessages] = useState<[Message] | null>(null);
     const [text, onChangeText] = useState("");
-    const senderId = 1;
-    const receiverId = route.params.id;
     const [user, setUser] = useState<User | null>(null);
+    const receiverId = route.params.id;
 
     useEffect(() => {
         retrieveData('user').then(u => setUser(u));
     }, []);
 
     useEffect(() => {
-        getMessages(senderId, receiverId).then(messages =>
+        getMessages(receiverId).then(messages =>
         setMessages(messages)
         )
         const interval = setInterval(() => {
-        getMessages(senderId, receiverId).then(messages =>
+        getMessages(receiverId).then(messages =>
         setMessages(messages)
         )
         }, 2500);
@@ -37,7 +27,7 @@ export const ChatView = ({route}: {route: any}) => {
     }, []);
 
     const sendUserMessage = async (text: string) => {
-        console.log(await sendMessage(1, receiverId, text)); 
+        console.log(await sendMessage(receiverId, text)); 
         onChangeText("")
     }
     
