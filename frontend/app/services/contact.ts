@@ -52,7 +52,7 @@ export const getContactNames = async (idList: Array<number>):Promise<any> => {
     const config = {
         headers:{
             "Content-Type": "application/json",
-            "x-access-token": (await retrieveData('user')).accessToken
+            "x-access-token": user.accessToken
         },
         params: {
             "senderId": user.id 
@@ -63,7 +63,23 @@ export const getContactNames = async (idList: Array<number>):Promise<any> => {
     .catch(err => console.log(err.response.data));
 };
 
-export const sendContactRequest = async (receiverId: number):Promise<any> => {
+export const getContactId = async (username: string):Promise<any> => {
+    const user = (await retrieveData('user'));
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+            "x-access-token": user.accessToken
+        },
+        params: {
+            "senderId": user.id 
+        }
+    };
+    return axios.post("/get-id", {"username": username}, config)
+    .then(res => res.data.user)
+    .catch(err => console.log(err.response.data));
+};
+
+export const sendContactRequest = async (username: string):Promise<any> => {
     const user = (await retrieveData('user'));
     const config = {
         headers:{
@@ -74,6 +90,7 @@ export const sendContactRequest = async (receiverId: number):Promise<any> => {
             "senderId": user.id
         }
     };
+    const receiverId = (await getContactId(username)).id;
     return axios.post("/contact-request", {"senderId": user.id, "receiverId": receiverId}, config)
     .then(res => res.data.message)
     .catch(err => console.log(err.response.data));

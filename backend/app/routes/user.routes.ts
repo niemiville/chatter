@@ -36,4 +36,10 @@ export function userRoutes(app: Express) {
     [authJwt.verifyToken, authJwt.verifyUser],
     controller.getContactNames
   );
+
+  app.post(
+    "/api/get-id",
+    [authJwt.verifyToken, authJwt.verifyUser],
+    controller.getUserId
+  );
 };

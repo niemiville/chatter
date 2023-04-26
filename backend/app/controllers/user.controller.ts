@@ -33,3 +33,17 @@ export const getContactNames: RequestHandler = (req, res) => {
       res.status(500).send({ message: err.message });
   });
 };
+
+export const getUserId: RequestHandler = (req, res) => {
+  console.log(req.body.username);
+  User.findOne({
+    attributes: ["id", "username"],
+    where: {       
+      username: req.body.username
+    }
+  })
+  .then((user) => res.status(200).send({ user }))
+  .catch(err => {
+      res.status(500).send({ message: err.message });
+  });
+};

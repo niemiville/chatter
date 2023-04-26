@@ -4,11 +4,11 @@ import { sendContactRequest } from '../services/contact';
 
 
 export const AddContact = ({navigation}: {navigation: any}) => {
-    const [receiverId, onChangeReceiverId] = useState('');
+    const [username, onChangeUsername] = useState('');
 
-    const addContact = async (receiverId: string) => {
-        console.log(await sendContactRequest(Number(receiverId))); 
-        onChangeReceiverId('');
+    const addContact = async (username: string) => {
+        console.log(await sendContactRequest(username)); 
+        onChangeUsername('');
         navigation.navigate('Contacts');
     }
 
@@ -18,10 +18,10 @@ export const AddContact = ({navigation}: {navigation: any}) => {
                 <View>
                     <TextInput
                         style={styles.input}
-                        placeholder="Write user id"
-                        onChangeText={onChangeReceiverId}
-                        value={receiverId}
-                        onSubmitEditing={ () => addContact(receiverId) }
+                        placeholder="Write a username"
+                        onChangeText={onChangeUsername}
+                        value={username}
+                        onSubmitEditing={ () => addContact(username) }
                     />
                 </View>
             </ScrollView>
