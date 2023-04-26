@@ -18,19 +18,19 @@ export const Contacts = ({navigation}: {navigation: any}) => {
                 {contacts != null && 
                     <View style={{padding: 15}}>
                         {contacts.map(c =>
-                            <Text key={c.id} onPress={() => navigation.navigate('Chat', { id: c.id, username: c.username })}>{c.username}</Text>         
+                            <Text style={{padding: 5, fontSize: 20}} key={c.id} onPress={() => navigation.navigate('Chat', { id: c.id, username: c.username })}>{c.username}</Text>         
                         )}
                     </View>
                 }
-                <Text style={{paddingLeft: 15}}>Open contact requests</Text>
+                <Text style={{paddingLeft: 15, fontSize: 23, color: "black"}}>Open contact requests</Text>
                 {contactRequests != null && 
                     <View style={{padding: 15}}>
                         {contactRequests.map(c =>
                             <View key={c.id} style={{flexDirection: "row"}}>
-                                <Text key={c.id + "name"}>{c.username}</Text> 
-                                <Text onPress={() => acceptContactRequest(c.id)}> Accept </Text>
-                                <Text onPress={() => rejectContactRequest(c.id)}> Reject </Text>
-                                <Text onPress={() => blockContactRequest(c.id)}> Block </Text>
+                                <Text style={{padding: 5, fontSize: 20}} key={c.id + "name"}>{c.username}</Text> 
+                                <Text style={{padding: 5, fontSize: 20, color: "green"}} onPress={() => acceptContactRequest(c.id)}> Accept </Text>
+                                <Text style={{padding: 5, fontSize: 20, color: "orange"}} onPress={() => rejectContactRequest(c.id)}> Reject </Text>
+                                <Text style={{padding: 5, fontSize: 20, color: "red"}} onPress={() => blockContactRequest(c.id)}> Block </Text>
                             </View>  
                         )}
                     </View>
