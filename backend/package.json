@@ -4,7 +4,9 @@
   "description": "Node.js Demo for JWT Authentication with PostgreSQL",
   "main": "server.js",
   "scripts": {
-    "dev-node": "ts-node-dev server.ts"
+    "dev-node": "ts-node-dev server.ts",
+    "build": "tsc",
+    "start": "node build/backend/server.js"
   },
   "keywords": [
     "node js",
@@ -13,7 +15,7 @@
     "authentication",
     "postgresql"
   ],
-  "author": "bezkoder",
+  "author": "bezkoder, niemiville",
   "license": "ISC",
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
